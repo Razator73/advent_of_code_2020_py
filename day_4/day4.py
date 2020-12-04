@@ -31,9 +31,9 @@ validator = {'byr': lambda x: 1920 <= int(x) <= 2002,
              'iyr': lambda x: 2010 <= int(x) <= 2020,
              'eyr': lambda x: 2020 <= int(x) <= 2030,
              'hgt': hgt_validator,
-             'hcl': lambda x: re.search(r'#[0-9a-f]{6}', x),
+             'hcl': lambda x: re.search(r'#[0-9a-f]{6}', x) and len(x) == 7,
              'ecl': lambda x: x in ['amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth'],
-             'pid': lambda x: re.search(r'[0-9]{9}', x) and len(x) == 9,
+             'pid': lambda x: re.search(r'\d{9}', x) and len(x) == 9,
              'cid': lambda x: True}
 good_count = 0
 for passport in passports:
