@@ -1,7 +1,4 @@
-from pathlib import Path
-
-slope_file = Path('day_3/slope.txt')
-with open(slope_file) as f:
+with open('day_3/slope.txt') as f:
     slope_data = [x.strip() for x in f.readlines()]
 
 # part 1

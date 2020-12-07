@@ -1,8 +1,6 @@
 import re
-from pathlib import Path
 
-password_file = Path('day_2/passwords.txt')
-with open(password_file) as f:
+with open('day_2/passwords.txt') as f:
     passwords = [x.strip() for x in f.readlines()]
 password_pattern = r'(\d+)-(\d+)\s(\w):\s([a-zA-Z]+)'
 

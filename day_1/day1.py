@@ -1,7 +1,4 @@
-from pathlib import Path
-
-expense_file = Path('day_1/expense_report.txt')
-with open(expense_file) as f:
+with open('day_1/expense_report.txt') as f:
     expense_data = [int(x.strip()) for x in f.readlines()]
 
 # part one

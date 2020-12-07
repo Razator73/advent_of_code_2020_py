@@ -1,8 +1,6 @@
 import re
-from pathlib import Path
 
-passport_file = Path('day_4/passports.txt')
-with open(passport_file) as f:
+with open('day_4/passports.txt') as f:
     passport_data = f.read()
 
 passports = passport_data.split('\n\n')
