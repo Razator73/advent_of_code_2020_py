@@ -1,20 +1,29 @@
-with open('day_11/seating_chart.txt') as f:
-    seats = [x.strip() for x in f.readlines()]
+def read_seat_grid():
+    with open('day_11/seating_chart.txt') as f:
+        seat_grid = [x.strip() for x in f.readlines()]
 
-seats = [
-    'L.LL.LL.LL',
-    'LLLLLLL.LL',
-    'L.L.L..L..',
-    'LLLL.LL.LL',
-    'L.LL.LL.LL',
-    'L.LLLLL.LL',
-    '..L.L.....',
-    'LLLLLLLLLL',
-    'L.LLLLLL.L',
-    'L.LLLLL.LL'
-]
+    return [[y for y in x] for x in seat_grid]
 
-seats = [[y for y in x] for x in seats]
+
+def run(seats, check_adj, tol):
+    while True:
+        to_fill = []
+        to_empty = []
+        for i in range(len(seats)):
+            for k in range(len(seats[i])):
+                if seats[i][k] != '.':
+                    occupied = check_adj(seats, i, k)
+                    if seats[i][k] == 'L' and occupied == 0:
+                        to_fill.append((i, k))
+                    elif seats[i][k] == '#' and occupied >= tol:
+                        to_empty.append((i, k))
+        for fill_seat in to_fill:
+            seats[fill_seat[0]][fill_seat[1]] = '#'
+        for fill_seat in to_empty:
+            seats[fill_seat[0]][fill_seat[1]] = 'L'
+        if len(to_fill) + len(to_empty) == 0:
+            break
+    return sum(map(lambda x: x.count('#'), seats))
 
 
 def check_adjacent(seating, row, col):
@@ -24,27 +33,6 @@ def check_adjacent(seating, row, col):
             if seating[x][y] == '#' and (x, y) != (row, col):
                 occupied_count += 1
     return occupied_count
-
-
-while True:
-    to_fill = []
-    to_empty = []
-    for i in range(len(seats)):
-        for k in range(len(seats[i])):
-            if seats[i][k] != '.':
-                occupied = check_adjacent(seats, i, k)
-                if seats[i][k] == 'L' and occupied == 0:
-                    to_fill.append((i, k))
-                elif seats[i][k] == '#' and occupied > 3:
-                    to_empty.append((i, k))
-    for fill_seat in to_fill:
-        seats[fill_seat[0]][fill_seat[1]] = '#'
-    for fill_seat in to_empty:
-        seats[fill_seat[0]][fill_seat[1]] = 'L'
-    if len(to_fill) + len(to_empty) == 0:
-        break
-
-print(sum(map(lambda x: x.count('#'), seats)))
 
 
 def check_adj_2(seating, row, col):
@@ -62,23 +50,5 @@ def check_adj_2(seating, row, col):
     return occupied_seats
 
 
-while True:
-    to_fill = []
-    to_empty = []
-    for i in range(len(seats)):
-        for k in range(len(seats[i])):
-            if seats[i][k] != '.':
-                occupied = check_adj_2(seats, i, k)
-                if seats[i][k] == 'L' and occupied == 0:
-                    to_fill.append((i, k))
-                elif seats[i][k] == '#' and occupied > 4:
-                    to_empty.append((i, k))
-    for fill_seat in to_fill:
-        seats[fill_seat[0]][fill_seat[1]] = '#'
-    for fill_seat in to_empty:
-        seats[fill_seat[0]][fill_seat[1]] = 'L'
-    if len(to_fill) + len(to_empty) == 0:
-        break
-
-print(sum(map(lambda x: x.count('#'), seats)))
-
+print(f'Part 1: {run(read_seat_grid(), check_adjacent, 4)}')
+print(f'Part 2: {run(read_seat_grid(), check_adj_2, 5)}')
